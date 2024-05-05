@@ -1,0 +1,124 @@
+class11
+blank = library y despues mvs = library.web 
+para crear el proyecto pon mvs
+
+views= tiene la parte de fronend
+
+vamos a relacionar el sql desde el objeto de c charp
+1instalarle um mugget
+2click derecho y preciona en Manage Nuget Packagesy busca EntityFrameworkCore de la version que uses
+y EntityFrameworkCore.sql y EntityFrameworkCore.tools y descargalo
+
+3creas en una carpeta llamada Data en esa carpeta creas los archivos de la clase en carpeta llamada entities y archivo llamado DataContext fuera de entities y pones lo siguiente en Datacontext
+
+using Microsoft.EntityFrameworkCore;
+
+esto sera el constructor
+public DataContext(DbContextOptions<DataContext> options) : base(options){
+           }
+
+4) vas creando las tablas (propiertis = prop)
+-para hacer la fk o la conexion de todas las tablas y las tablas en si necesitas lo siguiente
+public Dbset<nombreDeEntidad> NombreEntidad {get;set;} = aqui ya esta conectado al archivo del nombre y crea la tabla y la clave foranea
+
+nota(data notation properties)
+[MaxLength(128, ErrorMessage = "El campo {0} de tener al menos un caracter ")]
+
+
+5 y ahora vas a crear la conexion por medio de comandos en la terminal de nugets
+
+6 en archivos programs(el princila) hay que poner 
+
+// Data Context
+builder.Services.AddDbContext<DataContext>(cfg =>
+{
+    cfg.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection"));
+
+});
+
+7) en appsettings.json hay que poner esta cadena de conexxion
+
+"ConnectionStrings": {
+    "MyConnection": "Server=.\\SALAK401-20;Database=LibraryDb;User Id=manueluser;Password=manueluser123;encrypt=false;"
+                             
+  },
+
+Server=.\\SALAK401= nombre del server sql
+Database=LibraryDb= nombre de la base de datos
+User Id=manueluser;Password=manueluser123 = contraseña y nombre de ususario de sql authentication
+encrypt=false; = encriptasion
+8)
+  en sql parte de usuario y contraseña = 34 min
+
+9)
+va a herramientas
+precionas Administrador de paquetes nugets
+y pon terminal
+------Comandos
+https://learn.microsoft.com/es-es/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/migrations-and-deployment-with-the-entity-framework-in-an-asp-net-mvc-application
+
+enable-migrations = permite configurar el comportamiento de Migraciones en el contexto
+add-migration (Nombre de la migracion)
+		          CreareAuthorsTable
+Estas migraciones se utilizan para aplicar cambios en la estructura de la base de datos, como agregar, modificar o eliminar tablas, columnas, índices, restricciones, etc.
+(add-migration addEditorialFieldToBooksTable)
+update-database =Actualiza la base de datos a la última migración o a una migración especificada
+drop-database = elimina la base de datos (necesitas eliminar la carpeta migration) solo se puede hacer en proceso de creacion
+-------------
+
+vamos a crear un CRUD a author = CRUD es un acrónimo que se refiere a las cuatro operaciones básicas utilizadas en la manipulación de datos: Crear (Create), Leer (Read), Actualizar (Update) y Eliminar (Delete). 
+
+ve a carpeta controller, click derecho, add controler, el nombre debe de ser el (NombreDeLaentidad)Controller
+
+en el metodo recien salido debe de dar asi
+publick async Task<IActionResult> Index() {
+ 
+}
+async= lo convierte en asyncronico
+task = Se utiliza para representar una operación asincrónica que puede producir un resultado
+(IActionResult)= una vista y al poner task dice que la retorne con task
+
+
+inyeccion de dependecias
+privete readonly Datacontext _context;
+
+a esto control . y creas un constructor
+dentro del constructor viene
+
+_context=context
+
+
+dentro del public async poner=
+IEnumerable<Author> list = await _context.Authors.ToListAsync();
+
+await es necesario en todo methodo asincrono
+
+y en el retun view();
+el list
+
+crear la vista del controlador
+en la carpeta views, crear carpeta Author(en este caso porque el controller es AuthorController), click derecho añadir vista, el nombre sera index, y dentro del archivo pon:
+
+----------1:00:00
+@model IEnumerable<Library.web.Data.Entities.Author>
+
+y pones un div class = row
+dentro estara otro div 
+y un table class=table-responsive,
+con titulo de primer nombre, Apellido
+
+el body tendra o debe tener
+@foreach(var item in model){
+	<tr>
+		<td>@item.FirstName</td>
+		<td>@item.LastName</td>
+	</tr>
+
+
+}
+
+
+
+
+
+
