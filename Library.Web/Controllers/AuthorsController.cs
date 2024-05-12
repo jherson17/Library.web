@@ -119,7 +119,8 @@ namespace Library.Web.Controllers
                 // Actualiza los datos del autor con los valores del DTO.
                 author.Name = dto.Name;
                 author.Last_Name = dto.Last_Name;
-                
+
+                // Marca el autor como modificado en el contexto de datos.
                 _context.Authors.Update(author);
                
                 await _context.SaveChangesAsync();
@@ -132,6 +133,30 @@ namespace Library.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            try
+            {
+                Author autor = await _context.Authors.FirstOrDefaultAsync(a => a.Id == id);
+
+                if (autor is null)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                // Elimina el autor de la base de datos.
+                _context.Authors.Remove(autor);
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
 
 

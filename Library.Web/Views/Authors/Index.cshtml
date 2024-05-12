@@ -21,9 +21,48 @@
             <tr>
                 <td>@item.Name</td>
                 <td>@item.Last_Name</td>
-                <td><a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Editar</a></td>
+                @* creacion del boton que conecta con la vista edit *@
+                <td>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                   @*  esta llamando a delete de controller *@
+                    <form asp-action="Delete" asp-route-id="@item.Id" style="display:contents">
+                        <button class="btn btn-danger btnDelete">Eliminar</button>
+                    </form>
+                </td>
+
             </tr>
         }
     </tbody>
 </table>
 
+@section Scripts {
+    <script>
+        // Función que se ejecuta cuando el documento HTML ha sido completamente cargado
+        $(document).ready(function() {
+            // Selecciona todos los elementos con la clase 'btnDelete' y define un evento 'click' para ellos
+            $('.btnDelete').click(function(event) {
+                // Evita el comportamiento predeterminado del botón (enviar el formulario)
+                event.preventDefault();
+                // Muestra un cuadro de diálogo de confirmación utilizando SweetAlert2
+                Swal.fire({
+                    title: "¿Desea eliminar el Autor?",
+                    text: "No prodrá revertirlo",
+                    icon: "question",
+                    showCancelButton: true,
+                }).then((result) => {// Si el usuario confirma la eliminación
+                        
+                    if (result.isConfirmed) {
+                        // Encuentra el formulario más cercano al botón de eliminación y lo envía
+                        const form = $(this).closest('form');
+
+                        form.submit();// Envía el formulario. Si el usuario confirmó la eliminación, el formulario se envía y el autor se eliminará del servidor.
+                    }
+
+                });
+            
+            });
+
+        });
+
+    </script>
+}

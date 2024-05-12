@@ -5,9 +5,9 @@
 }
 
 <h1>Editar Autor</h1>
-
+@* Define un formulario HTML que enviará los datos al método Edit del controlador cuando se envíe. *@
 <form asp-action="Edit" method="POST">
-
+    @* Un campo oculto que contiene el ID del autor. Este campo se usará para identificar al autor que se va a editar cuando se envíe el formulario. *@
     <input type="hidden" asp-for="Id" />
 
     <div class="mb-3">
