@@ -19,6 +19,7 @@ namespace Library.Web.Controllers
 
         [HttpGet]
         // Acción para mostrar la lista de autores.
+        //click derecho - añador vista (debe tener el mismo nombre)
         public async Task<IActionResult> Index()
         {
             // Obtiene la lista de autores de forma asincrónica desde la base de datos.
@@ -65,5 +66,74 @@ namespace Library.Web.Controllers
             }
             
         }
+
+        [HttpGet]
+        /*[FromRoute] int id indica que el parámetro id del método Edit del controlador AuthorsController se extraerá de la ruta de la URL.*/
+        public async Task<IActionResult> Edit([FromRoute] int id)
+        {
+            try
+            {
+                // Busca el autor en la base de datos con el id proporcionado.
+                Author autor = await _context.Authors.FirstOrDefaultAsync(a => a.Id == id);
+
+                if (autor is null) // Verifica si el autor no se encontró en la base de datos.
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                // Crea un objeto AuthorDTO que contiene los datos del autor para ser mostrados en la vista.
+                AuthorDTO dto = new AuthorDTO
+                {
+                    Id = id,
+                    Name = autor.Name,
+                    Last_Name = autor.Last_Name,
+                };
+                // Devuelve la vista "Edit" pasando el objeto AuthorDTO como modelo.
+                return View(dto);
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+        }
+    
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(AuthorDTO dto)
+        {
+            try
+            {   // Verifica si el modelo recibido es válido según las reglas de validación definidas en el DTO.
+                if (!ModelState.IsValid)
+                {
+                    return View(dto);// Si los datos del modelo no son válidos, vuelve a la vista de creación.
+                }
+
+                // Busca el autor en la base de datos con el ID proporcionado en el DTO.
+                Author author = await _context.Authors.FirstOrDefaultAsync(a => a.Id == dto.Id);
+
+                if (author is null)
+                {
+                    // Si el autor no se encuentra, devuelve un resultado NotFound.
+                    return NotFound();
+                }
+                // Actualiza los datos del autor con los valores del DTO.
+                author.Name = dto.Name;
+                author.Last_Name = dto.Last_Name;
+                
+                _context.Authors.Update(author);
+               
+                await _context.SaveChangesAsync();
+                
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+
+                return RedirectToAction(nameof(Index));
+            }
+
+        }
+
+
     }
 }

@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel.DataAnnotations;
 
 namespace Library.Web.DTO
 {
+    //La clase AuthorDTO es un modelo de transferencia de datos(DTO) que se 
+    //  utiliza para transferir datos relacionados con un autor entre las vistas y los controladores en una aplicación ASP.NET Core
     public class AuthorDTO
     {
         public int Id { get; set; }

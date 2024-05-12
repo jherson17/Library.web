@@ -12,6 +12,7 @@
             <th scope="col">#</th>
             <th scope="col">First</th>
             <th scope="col">Last</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -20,6 +21,7 @@
             <tr>
                 <td>@item.Name</td>
                 <td>@item.Last_Name</td>
+                <td><a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Editar</a></td>
             </tr>
         }
     </tbody>

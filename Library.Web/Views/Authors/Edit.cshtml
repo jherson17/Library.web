@@ -1,0 +1,34 @@
+﻿@model Library.Web.DTO.AuthorDTO// Define el modelo de la vista como AuthorDTO en el espacio de nombres Library.Web.DTO
+
+@{
+    ViewData["Title"] = "Editar Autor";
+}
+
+<h1>Editar Autor</h1>
+
+<form asp-action="Edit" method="POST">
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label class="form-label">Nombres</label>
+        <input type="text" class="form-control" asp-for="Name" placeholder="Nombres..">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Apellidos</label>
+        <input type="text" class="form-control" asp-for="Last_Name" placeholder="Apellidos">
+        <span asp-validation-for="Last_Name" class="text-danger"></span>
+    </div>
+
+    <button class="btn btn-primary">Guardar</button>
+
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
