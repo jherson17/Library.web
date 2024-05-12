@@ -1,28 +1,27 @@
 ﻿@{
     ViewData["Title"] = "Index"; // Establece el título de la página.
 }
-@* //estan herdando de layaout *@
+@* //estan heredando de layaout *@
 <h1>Autores</h1>
-<div class="row">
-    <div class="table">
-        <table class="table-responsive">
-            <thead>
-                <tr>
-                    <th>Nombres</th>
-                    <th>Apellidos</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.Name</td>
-                        <td>@item.Last_Name</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
 
+<!-- Enlace para dirigirse a la acción 'Create' del controlador -->
+<a class="btn btn-info" asp-action="Create">Autores</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Last_Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
 

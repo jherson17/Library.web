@@ -1,0 +1,32 @@
+﻿@model Library.Web.DTO.AuthorDTO// Define el modelo de la vista como AuthorDTO en el espacio de nombres Library.Web.DTO
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Nuevos Autores</h1>
+<form asp-action="Create" method="post">
+    <!-- Formulario para enviar los datos del nuevo autor al servidor -->
+
+    <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <input type="text" class="form-control" asp-for="Name" placeholder="Nombres">
+
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Apellido</label>
+        <input type="text" class="form-control" asp-for="Last_Name" placeholder="Apellidos">
+        <span asp-validation-for="Last_Name" class="text-danger"></span>
+    </div>
+
+    <button class="btn btn-primary">Guardar</button><!-- Botón para enviar el formulario y guardar los detalles del nuevo autor -->
+</form>
+@* se creo para que sea mas inteligente la web cuando no tiene algo escrito  *@
+@section Scripts {
+    <!-- Sección para scripts que se incluirán al final de la página -->
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial"); // Renderiza parcialmente los scripts necesarios para la validación del formulario
+    }
+}
+
+
