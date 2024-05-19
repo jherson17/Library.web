@@ -18,9 +18,8 @@ namespace Library.Web.Data.Entities
         // Propiedad que representa la descripción del libro.
         [MaxLength(128, ErrorMessage = "El campo {0} debe tener al menos un caracter.")]
         public string Description { get; set; }
-
+ 
         // Propiedad que representa la fecha de publicación del libro.
-        [MaxLength(128, ErrorMessage = "El campo {0} debe tener al menos un caracter.")]
         public DateTime PublishDate { get; set; }
 
         // Propiedad que representa el autor del libro.

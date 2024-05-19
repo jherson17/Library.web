@@ -19,5 +19,7 @@ namespace Library.Web.Data.Entities
         [MaxLength(128, ErrorMessage = "El campo {0} debe tener al menos un caracter.")]
         [Required(ErrorMessage = "el campo {0} es requerida")]
         public string Last_Name { get; set; }
+
+        public string FullName => $"{Name} {Last_Name}";//indica que el valor de la propiedad FullName será el resultado de la expresión a su derecha.
     }
 }
