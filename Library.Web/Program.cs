@@ -2,7 +2,8 @@ using Library.Web.Data; // Importa el espacio de nombres que contiene la clase D
 using Microsoft.EntityFrameworkCore; // Importa el espacio de nombres que contiene las clases relacionadas con Entity Framework Core.
 using Microsoft.AspNetCore.Builder; // Importa el espacio de nombres que contiene las clases para configurar la aplicación ASP.NET Core.
 using Microsoft.AspNetCore.Hosting; // Importa el espacio de nombres que contiene las clases relacionadas con el hospedaje de la aplicación ASP.NET Core.
-using Microsoft.Extensions.DependencyInjection; // Importa el espacio de nombres que contiene las clases para configurar los servicios de la aplicación ASP.NET Core.
+using Microsoft.Extensions.DependencyInjection;
+using Library.Web.Service; // Importa el espacio de nombres que contiene las clases para configurar los servicios de la aplicación ASP.NET Core.
 
 var builder = WebApplication.CreateBuilder(args); // Crea un nuevo constructor de aplicaciones web.
 
@@ -14,6 +15,8 @@ builder.Services.AddDbContext<DataContext>(cfg =>
 {
     cfg.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")); // Configura Entity Framework Core para usar SQL Server como proveedor de base de datos y obtiene la cadena de conexión desde la configuración de la aplicación.
 });
+
+builder.Services.AddScoped<IAuthorsService, AuthorsService>();
 
 var app = builder.Build(); // Construye la aplicación.
 
