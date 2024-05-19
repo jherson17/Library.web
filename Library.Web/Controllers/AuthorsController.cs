@@ -1,4 +1,5 @@
-﻿using Library.Web.Data; // Importa el espacio de nombres que contiene las clases relacionadas con el acceso a datos.
+﻿using Library.Web.Core;
+using Library.Web.Data; // Importa el espacio de nombres que contiene las clases relacionadas con el acceso a datos.
 using Library.Web.Data.Entities; // Importa el espacio de nombres que contiene las entidades de datos.
 using Library.Web.DTO;
 using Library.Web.Service;
@@ -25,10 +26,14 @@ namespace Library.Web.Controllers
         public async Task<IActionResult> Index()
         {
             // Obtiene la lista de autores de forma asincrónica desde la base de datos.
-            IEnumerable<Author> list = await  _authorsService.GetListAsyc();
+            Response<List<Author>> response = await  _authorsService.GetListAsyc();
 
+            if (!response.IsSucces)
+            {
+                return BadRequest();
+            }
             // Devuelve una vista pasando la lista de autores como modelo.
-            return View(list);
+            return View(response.Result);
         }
         [HttpGet]
         public async Task<IActionResult> Create()

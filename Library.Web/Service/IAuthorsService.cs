@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Library.Web.Core;
 using Library.Web.Data;
 using Library.Web.Data.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,7 @@ namespace Library.Web.Service
 {
     public interface IAuthorsService
     {
-        public Task<List<Author>> GetListAsyc();
+        public Task<Response<List<Author>>> GetListAsyc();
 
     }
 
@@ -20,16 +21,31 @@ namespace Library.Web.Service
             _context = context;
         }
 
-        public async Task<List<Author>> GetListAsyc()
+        public async Task<Response<List<Author>>> GetListAsyc()
         {
             try
             {
+                throw new Exception("Test");
+
                 List<Author> List = await _context.Authors.ToListAsync();
-                return List;
+                Response<List<Author>> response = new Response<List<Author>>
+                {
+                    IsSucces = true,
+                    Message = "Lista Obtenida",
+                    Result = List
+                };
+
+
+                return response;
             }
             catch (Exception ex)
             {
-                return null;
+                return new Response<List<Author>>
+                {
+                    IsSucces = false,
+                    Message = ex.Message,
+
+                };
                 
             }
         }
