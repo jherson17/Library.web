@@ -1,4 +1,6 @@
-﻿using Library.Web.Core;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using AspNetCoreHero.ToastNotification.Notyf;
+using Library.Web.Core;
 using Library.Web.Data; // Importa el espacio de nombres que contiene las clases relacionadas con el acceso a datos.
 using Library.Web.Data.Entities; // Importa el espacio de nombres que contiene las entidades de datos.
 using Library.Web.DTO;
@@ -13,11 +15,14 @@ namespace Library.Web.Controllers
     {
         private readonly DataContext _context; // Declara un campo para almacenar el contexto de datos.
         private readonly IAuthorsService _authorsService;
-        // Constructor que recibe el contexto de datos mediante inyección de dependencias.
-        public AuthorsController(DataContext context, IAuthorsService authorsService)
+        public INotyfService _notifyService;
+
+        // Constructor que recibe el contexto de datos y los servicios mediante inyección de dependencias.
+        public AuthorsController(DataContext context, IAuthorsService authorsService, INotyfService notifyService)
         {
             _context = context; // Asigna el contexto de datos recibido al campo privado.
-            _authorsService = authorsService;
+            _authorsService = authorsService; // Asigna el servicio de autores recibido al campo privado.
+            _notifyService = notifyService; // Asigna el servicio de notificaciones recibido al campo privado.
         }
 
         [HttpGet]
@@ -25,13 +30,20 @@ namespace Library.Web.Controllers
         //click derecho - añador vista (debe tener el mismo nombre)
         public async Task<IActionResult> Index()
         {
-            // Obtiene la lista de autores de forma asincrónica desde la base de datos.
-            Response<List<Author>> response = await  _authorsService.GetListAsyc();
+            // Obtiene la lista de autores de forma asincrónica desde el servicio de autores.
+            Response<List<Author>> response = await _authorsService.GetListAsyc();
 
+            // Verifica si la operación de obtención fue exitosa.
             if (!response.IsSucces)
             {
-                return BadRequest();
+                // Muestra un mensaje de éxito utilizando el servicio de notificaciones y redirige al usuario a la página de inicio.
+                _notifyService.Success(response.Message);
+                return RedirectToAction("Index", "Home");
             }
+
+            // Muestra un mensaje de éxito utilizando el servicio de notificaciones.
+            _notifyService.Success(response.Message);
+
             // Devuelve una vista pasando la lista de autores como modelo.
             return View(response.Result);
         }

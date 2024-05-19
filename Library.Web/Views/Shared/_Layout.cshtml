@@ -48,6 +48,11 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script> 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> @* esto es de sweetalert2 (es recomendable que lo descargues y lo pongas en wwwroot en js, en ves de en linea)*@
+    @* Este método invoca de manera asíncrona el componente "Notyf".
+    // "Notyf" es probablemente una biblioteca utilizada para mostrar notificaciones en la aplicación.
+    // El uso de @await asegura que la llamada sea no bloqueante, permitiendo que la aplicación continúe ejecutándose mientras se carga el componente.
+    // Esto es útil para mejorar el rendimiento y la capacidad de respuesta de la aplicación.*@
+    @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

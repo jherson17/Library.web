@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<Library.Web.Data.Entities.Author>
+@{
     ViewData["Title"] = "Index"; // Establece el título de la página.
 }
 @* //estan heredando de layaout *@
@@ -10,8 +11,13 @@
     <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
+            <!--
+                Esta línea genera un encabezado de columna de una tabla para el nombre.
+                Html.DisplayNameFor(model => model.Name) utiliza la reflexión para obtener el nombre de la propiedad "Name" del modelo.
+                Esto permite mostrar el nombre legible de la propiedad, definido mediante DataAnnotations, en lugar del nombre exacto de la propiedad.
+            -->
+            <th>@Html.DisplayNameFor(model => model.Name)</th>
+            <th>@Html.DisplayNameFor(model => model.Last_Name)</th>
             <th></th>
         </tr>
     </thead>
